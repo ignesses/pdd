@@ -141,10 +141,6 @@ namespace Clase_20200901
         */
 
         /*
-        Armar un programa que le pida al usuario ingresar el año de la fecha de nacimiento y calcular si fue biciesto o no. Encapsular en un método el ingreso de datos pasando el texto a mostrarle al usuario y en otro método el cálculo de si es biciesto devolviendo un valor booleano.
-         */
-
-        /*
         static bool CalcularAñoBisiesto(string año, out bool flag)
             {
                 if (Convert.ToInt32(año) % 4 == 0 && Convert.ToInt32(año) % 100 != 0 || Convert.ToInt32(año) % 400 == 0)
