@@ -105,13 +105,14 @@ namespace _20200908
             return numero1 * numero2;
         }
 
-        public int Dividir(int numero1, int numero2)
+        public String Dividir(int numero1, int numero2)
         {
             if (numero2 == 0)
             {
-                return 0;
+                return "No se puede dividir un número por cero.";
             }
-            return numero1 / numero2;
+            int resultado = numero1 / numero2;
+            return resultado.ToString();
         }
 
         // Implemento el método heredado de Calculadora Base:
