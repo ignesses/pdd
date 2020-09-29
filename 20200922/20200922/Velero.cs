@@ -14,5 +14,10 @@ namespace _20200922
         {
 
         }
+        protected override void Detener()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
