@@ -100,7 +100,9 @@ namespace ParcialEssesIgnacio.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("User")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(20);
 
                     b.HasKey("Id_User");
 

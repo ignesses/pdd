@@ -9,7 +9,7 @@ using ParcialEssesIgnacio;
 namespace ParcialEssesIgnacio.Migrations
 {
     [DbContext(typeof(TareaDbContext))]
-    [Migration("20201010222624_Inicial")]
+    [Migration("20201011021356_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,7 +102,9 @@ namespace ParcialEssesIgnacio.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("User")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(20);
 
                     b.HasKey("Id_User");
 

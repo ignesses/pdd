@@ -13,7 +13,7 @@ namespace ParcialEssesIgnacio.Migrations
                 {
                     Id_User = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    User = table.Column<string>(nullable: true),
+                    User = table.Column<string>(maxLength: 20, nullable: false),
                     Clave = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
