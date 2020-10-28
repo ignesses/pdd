@@ -1,0 +1,50 @@
+﻿@page "/listadoTareas"
+
+@using _20201013.Data
+@inject TareaService TareaService
+
+<h1>Listado de Tareas</h1>
+
+@if (tareas == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Vencimiento</th>
+                <th>Estimacion</th>
+                <th>RecursoId</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tarea in tareas)
+            {
+                <tr>
+                    <td>@tarea.Id_Tarea</td>
+                    <td>@tarea.Titulo</td>
+                    <td>@tarea.Vencimiento</td>
+                    <td>@tarea.Estimacion</td>
+                    <td>@tarea.Responsable</td>
+                    <td>@tarea.Estado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private Tarea[] tareas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tareas = TareaService.GetTareas();
+    }
+
+}
