@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace _20201013.Data
+namespace _ProyectoFinal.Data
 {
     [Table("Tarea")]
     public class Tarea

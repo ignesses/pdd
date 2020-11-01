@@ -40,11 +40,11 @@ else
 
 @code {
 
-    private Tarea[] tareas;
+    private List<Tarea> tareas;
 
     protected override async Task OnInitializedAsync()
     {
-        tareas = TareaService.GetTareas();
+        tareas = await TareaService.GetAll();
     }
 
 }

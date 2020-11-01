@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ProyectoFinal.Data;
+using _ProyectoFinal.Data;
 
-namespace ProyectoFinal
+namespace _ProyectoFinal
 {
     public class Startup
     {
@@ -28,7 +28,10 @@ namespace ProyectoFinal
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<TaskDbContext>();
+            services.AddSingleton<TareaService>();
+            services.AddSingleton<UsuarioService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

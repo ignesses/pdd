@@ -1,0 +1,44 @@
+﻿@page "/listadoUsuarios"
+
+@using _20201013.Data
+@inject UsuarioService UsuarioService
+
+<h1>Listado de Usuarios</h1>
+
+@if (usuarios == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Clave</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in usuarios)
+            {
+                <tr>
+                    <td>@usuario.Id_User</td>
+                    <td>@usuario.User</td>
+                    <td>@usuario.Clave</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private Usuario[] usuarios;
+
+    protected override async Task OnInitializedAsync()
+    {
+        usuarios = UsuarioService.GetUsuarios();
+    }
+
+}

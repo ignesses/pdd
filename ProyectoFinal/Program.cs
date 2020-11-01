@@ -22,7 +22,7 @@ namespace ProyectoFinal
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<_ProyectoFinal.Startup>();
                 });
     }
 }

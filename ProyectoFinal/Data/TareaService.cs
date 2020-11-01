@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace _20201013.Data
+namespace _ProyectoFinal.Data
 {
     public class TareaService
     {
@@ -38,8 +38,33 @@ namespace _20201013.Data
         {
             return await context.Tareas.ToListAsync();
         }
+        public async Task<Tarea> Get(int id)
+        {
+            return await context.Tareas.Where(i => i.Id_Tarea == id).SingleAsync();
+        }
 
-        
+        public async Task<Tarea> Save(Tarea value)
+        {
+            if (value.Id_Tarea == 0)
+            {
+                await context.Tareas.AddAsync(value);
+            }
+            else
+            {
+                context.Tareas.Update(value);
+            }
+            await context.SaveChangesAsync();
+            return value;
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            var entidad = await context.Tareas.Where(i => i.Id_Tarea == id).SingleAsync();
+            context.Tareas.Remove(entidad);
+            await context.SaveChangesAsync();
+            return true;
+        }
+
         public List<Tarea> ConsultarTareas()
         {
             var ctx = new TaskDbContext(); // Creo una instancia de contexto.

@@ -28,9 +28,9 @@ namespace _20201013
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<TaskDbContext>();
             services.AddSingleton<TareaService>();
-            //services.AddSingleton<DataContext>();
+            services.AddSingleton<UsuarioService>();
 
         }
 
