@@ -1,5 +1,5 @@
 ﻿@page "/tareas/listadoTareas"
-@using _ProyectoFinal.Data
+@using ProyectoFinal.Data
 @inject TareaService TareaService
 @inject NavigationManager navigation
 @inject IJSRuntime JsRuntime
@@ -21,8 +21,9 @@ else
                 <th>Titulo</th>
                 <th>Vencimiento</th>
                 <th>Estimacion</th>
-                <th>RecursoId</th>
+                <th>Recurso</th>
                 <th>Estado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -33,7 +34,7 @@ else
                 <td>@tarea.Titulo</td>
                 <td>@tarea.Vencimiento</td>
                 <td>@tarea.Estimacion</td>
-                <td>@tarea.Responsable</td>
+                <td>@tarea.Recurso.Nombre</td>
                 <td>@tarea.Estado</td>
                 <td><button class="btn" @onclick="()=>Editar(tarea.Id_Tarea)">Editar</button> <button class="btn" @onclick="()=>Borrar(tarea.Id_Tarea)">Borrar</button></td>
             </tr>
@@ -61,7 +62,7 @@ else
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "¿Desea eliminar la tarea seleccionada?");
         if (confirmed)
         {
-            await TareaService.Delete(id);
+            await TareaService.Remove(id);
             tareas = await TareaService.GetAll();
         }
     }

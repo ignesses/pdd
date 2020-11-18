@@ -1,7 +1,7 @@
-﻿@page "/tareas/EditarTarea/{id:int}"
+﻿@page "/detalles/EditarDetalle/{id:int}"
 @using ProyectoFinal.Data
-@inject TareaService TareaService
-@inject NavigationManager navigation
+@inject DetalleService DetalleService
+@inject NavigationManager navigation 
 
 <h3>@mensaje</h3>
 
@@ -9,12 +9,10 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <h4>Nombre</h4>
-    <InputText @bind-Value="Modelo.Titulo" />
-    <h4>Vencimiento</h4>
-    <InputDate @bind-Value="Modelo.Vencimiento" />
-    <h4>Estimación</h4>
-    <InputNumber @bind-Value="Modelo.Estimacion" />
+    <h4>Fecha</h4>
+    <InputText @bind-Value="Modelo.Fecha" />
+    <h4>Tiempo</h4>
+    <InputText @bind-Value="Modelo.Tiempo" />
     <h4>Recurso</h4>
     <InputSelect @bind-Value="Id_Recurso">
         <option value="0">Elija un recurso</option>
@@ -23,8 +21,7 @@
             <option value="@item.UsuarioId">@item.Nombre</option>
         }
     </InputSelect>
-    <h4>Estado</h4>
-    <InputText @bind-Value="Modelo.Estado" />
+
 
     <button type="submit">Guardar</button>
 </EditForm>
@@ -34,26 +31,27 @@
     [Parameter]
     public int Id { get; set; }
 
-    public Tarea Modelo { get; set; } = new Tarea();
-    public string mensaje;
+    public Detalle Modelo { get; set; } = new Detalle();
     public string Id_Recurso { get; set; }
+    public string mensaje;
     private List<Recurso> recursos;
 
     protected override async Task OnInitializedAsync()
     {
         if (Id > 0)
         {
-            Modelo = await TareaService.Get(Id);
+            Modelo = await DetalleService.Get(Id);
             Id_Recurso = Modelo.RecursoId.ToString();
-            mensaje = "Editar Tarea";
+            mensaje = "Editar Detalle";
+
         }
         else
         {
-            Modelo = new Tarea();
-            mensaje = "Nueva Tarea";
+            Modelo = new Detalle();
+            mensaje = "Nuevo Detalle";
         }
 
-        recursos = await TareaService.GetRecursos();
+        recursos = await DetalleService.GetRecursos();
 
     }
 
@@ -61,8 +59,8 @@
     private async void Guardar()
     {
         Modelo.RecursoId = int.Parse(Id_Recurso);
-        await TareaService.Save(Modelo);
-        navigation.NavigateTo("tareas/ListadoTareas");
+        await DetalleService.Save(Modelo);
+        navigation.NavigateTo("detalles/ListadoDetalles");
     }
 
 }

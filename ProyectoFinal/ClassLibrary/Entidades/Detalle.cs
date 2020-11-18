@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProyectoFinal.Data
+namespace ClassLibrary
 {
     [Table("Detalle")]
     public class Detalle

@@ -1,0 +1,64 @@
+﻿@page "/recursos/EditarRecurso/{id:int}"
+@using ProyectoFinal.Data
+@inject RecursoService RecursoService
+@inject NavigationManager navigation
+
+<h3>@mensaje</h3>
+
+<EditForm Model="@Modelo" OnValidSubmit="@Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <h4>Recurso</h4>
+    <InputText @bind-Value="Modelo.Nombre" />
+
+    <h4>Usuario</h4>
+    <InputSelect @bind-Value="Id_User">
+        <option value="0">Elija un usuario</option>
+        @foreach (var item in usuarios)
+        {
+            <option value="@item.Id_User">@item.User</option>
+        }
+    </InputSelect>
+
+    <button type="submit">Guardar</button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    public Recurso Modelo { get; set; } = new Recurso();
+    public string mensaje;
+    public string Id_User { get; set; }
+    private List<Usuario> usuarios;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            Modelo = await RecursoService.Get(Id);
+            Id_User = Modelo.UsuarioId.ToString();
+            mensaje = "Editar Recurso";
+
+        }
+        else
+        {
+            Modelo = new Recurso();
+            mensaje = "Nuevo Recurso";
+        }
+
+        usuarios = await RecursoService.GetUsuarios();
+
+    }
+
+
+    private async void Guardar()
+    {
+        Modelo.UsuarioId = int.Parse(Id_User);
+        await RecursoService.Save(Modelo);
+        navigation.NavigateTo("recursos/ListadoRecursos");
+    }
+
+}

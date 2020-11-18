@@ -1,5 +1,5 @@
 ﻿@page "/usuarios/listadoUsuarios"
-@using _ProyectoFinal.Data
+@using ProyectoFinal.Data
 @inject UsuarioService UsuarioService
 @inject NavigationManager navigation
 @inject IJSRuntime JsRuntime
@@ -20,12 +20,14 @@ else
                 <th>Id</th>
                 <th>Usuario</th>
                 <th>Clave</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var usuario in usuarios)
             {
             <tr>
+                <td>@usuario.Id_User</td>
                 <td>@usuario.User</td>
                 <td>@usuario.Clave</td>
                 <td><button class="btn" @onclick="()=>Editar(usuario.Id_User)">Editar</button> <button class="btn" @onclick="()=>Borrar(usuario.Id_User)">Borrar</button></td>

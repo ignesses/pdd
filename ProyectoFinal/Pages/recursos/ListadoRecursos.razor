@@ -1,0 +1,64 @@
+﻿@page "/recursos/listadoRecursos"
+@using ProyectoFinal.Data
+@inject RecursoService RecursoService
+@inject NavigationManager navigation
+@inject IJSRuntime JsRuntime
+
+<h1>Listado de Recursos</h1>
+
+<button class="btn" @onclick="()=>Editar(0)">Nuevo</button>
+
+@if (recursos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var recurso in recursos)
+            {
+                <tr>
+                    <td>@recurso.Id_Recurso</td>
+                    <td>@recurso.Nombre</td>
+                    <td>@recurso.Usuario.User</td>
+                    <td><button class="btn" @onclick="()=>Editar(recurso.Id_Recurso)">Editar</button> <button class="btn" @onclick="()=>Borrar(recurso.Id_Recurso)">Borrar</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<Recurso> recursos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        recursos = await RecursoService.GetAll();
+    }
+
+    protected void Editar(int id)
+    {
+        navigation.NavigateTo("recursos/editarRecurso/" + id);
+    }
+
+    async Task Borrar(int id)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "¿Desea elimiar el recurso seleccionado?");
+        if (confirmed)
+        {
+            await RecursoService.Remove(id);
+            recursos = await RecursoService.GetAll();
+        }
+    }
+
+}

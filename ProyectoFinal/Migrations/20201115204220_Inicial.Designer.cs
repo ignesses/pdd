@@ -4,21 +4,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using _ProyectoFinal.Data;
+using ProyectoFinal.Data;
 
 namespace ProyectoFinal.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    [Migration("20201101175017_Inicial")]
+    [Migration("20201115204220_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9");
+                .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("_ProyectoFinal.Data.Detalle", b =>
+            modelBuilder.Entity("ProyectoFinal.Data.Detalle", b =>
                 {
                     b.Property<int>("Id_Detalle")
                         .ValueGeneratedOnAdd()
@@ -27,10 +27,7 @@ namespace ProyectoFinal.Migrations
                     b.Property<string>("Fecha")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("RecursoId_Recurso")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("TareaId_Tarea")
+                    b.Property<int>("RecursoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Tiempo")
@@ -38,14 +35,12 @@ namespace ProyectoFinal.Migrations
 
                     b.HasKey("Id_Detalle");
 
-                    b.HasIndex("RecursoId_Recurso");
-
-                    b.HasIndex("TareaId_Tarea");
+                    b.HasIndex("RecursoId");
 
                     b.ToTable("Detalle");
                 });
 
-            modelBuilder.Entity("_ProyectoFinal.Data.Recurso", b =>
+            modelBuilder.Entity("ProyectoFinal.Data.Recurso", b =>
                 {
                     b.Property<int>("Id_Recurso")
                         .ValueGeneratedOnAdd()
@@ -54,30 +49,30 @@ namespace ProyectoFinal.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UsuarioId_User")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id_Recurso");
 
-                    b.HasIndex("UsuarioId_User");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Recurso");
                 });
 
-            modelBuilder.Entity("_ProyectoFinal.Data.Tarea", b =>
+            modelBuilder.Entity("ProyectoFinal.Data.Tarea", b =>
                 {
                     b.Property<int>("Id_Tarea")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("Estado")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Estado")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Estimacion")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Responsable")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("RecursoId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Titulo")
                         .HasColumnType("TEXT");
@@ -87,10 +82,12 @@ namespace ProyectoFinal.Migrations
 
                     b.HasKey("Id_Tarea");
 
+                    b.HasIndex("RecursoId");
+
                     b.ToTable("Tarea");
                 });
 
-            modelBuilder.Entity("_ProyectoFinal.Data.Usuario", b =>
+            modelBuilder.Entity("ProyectoFinal.Data.Usuario", b =>
                 {
                     b.Property<int>("Id_User")
                         .ValueGeneratedOnAdd()
@@ -101,30 +98,45 @@ namespace ProyectoFinal.Migrations
 
                     b.Property<string>("User")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id_User");
 
                     b.ToTable("Usuario");
                 });
 
-            modelBuilder.Entity("_ProyectoFinal.Data.Detalle", b =>
+            modelBuilder.Entity("ProyectoFinal.Data.Detalle", b =>
                 {
-                    b.HasOne("_ProyectoFinal.Data.Recurso", "Recurso")
+                    b.HasOne("ProyectoFinal.Data.Recurso", "Recurso")
                         .WithMany()
-                        .HasForeignKey("RecursoId_Recurso");
+                        .HasForeignKey("RecursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("_ProyectoFinal.Data.Tarea", "Tarea")
-                        .WithMany()
-                        .HasForeignKey("TareaId_Tarea");
+                    b.Navigation("Recurso");
                 });
 
-            modelBuilder.Entity("_ProyectoFinal.Data.Recurso", b =>
+            modelBuilder.Entity("ProyectoFinal.Data.Recurso", b =>
                 {
-                    b.HasOne("_ProyectoFinal.Data.Usuario", "Usuario")
+                    b.HasOne("ProyectoFinal.Data.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId_User");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("ProyectoFinal.Data.Tarea", b =>
+                {
+                    b.HasOne("ProyectoFinal.Data.Recurso", "Recurso")
+                        .WithMany()
+                        .HasForeignKey("RecursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recurso");
                 });
 #pragma warning restore 612, 618
         }

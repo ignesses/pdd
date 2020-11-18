@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace _ProyectoFinal.Data
+namespace ProyectoFinal.Data
 {
     public class TaskDbContext : DbContext
     {
@@ -19,6 +15,10 @@ namespace _ProyectoFinal.Data
                 .Property(p => p.Clave);
             modelBuilder.Entity<Tarea>()
                 .ToTable("Tarea");
+            modelBuilder.Entity<Recurso>()
+                .ToTable("Recurso");
+            modelBuilder.Entity<Detalle>()
+                .ToTable("Detalle");
         }
 
         public DbSet<Tarea> Tareas { get; set; }

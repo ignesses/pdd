@@ -5,34 +5,34 @@ using System.Threading.Tasks;
 
 namespace ProyectoFinal.Data
 {
-    public class TareaService
+    public class DetalleService
     {
         private TaskDbContext context;
 
-        public TareaService(TaskDbContext _context)
+        public DetalleService(TaskDbContext _context)
         {
             context = _context;
         }
 
-        public async Task<List<Tarea>> GetAll()
+        public async Task<List<Detalle>> GetAll()
         {
-            return await context.Tareas.Include(i=>i.Recurso).ToListAsync();
+            return await context.Detalles.Include(i=>i.Recurso).ToListAsync();
         }
 
-        public async Task<Tarea> Get(int id)
+        public async Task<Detalle> Get(int id)
         {
-            return await context.Tareas.Where(i => i.Id_Tarea == id).SingleAsync();
+            return await context.Detalles.Where(i => i.Id_Detalle == id).SingleAsync();
         }
 
-        public async Task<Tarea> Save(Tarea value)
+        public async Task<Detalle> Save(Detalle value)
         {
-            if (value.Id_Tarea == 0)
+            if (value.Id_Detalle == 0)
             {
-                await context.Tareas.AddAsync(value);
+                await context.Detalles.AddAsync(value);
             }
             else
             {
-                context.Tareas.Update(value);
+                context.Detalles.Update(value);
             }
             await context.SaveChangesAsync();
             return value;
@@ -40,8 +40,8 @@ namespace ProyectoFinal.Data
 
         public async Task<bool> Remove(int id)
         {
-            var entidad = await context.Tareas.Where(i => i.Id_Tarea == id).SingleAsync();
-            context.Tareas.Remove(entidad);
+            var entidad = await context.Detalles.Where(i => i.Id_Detalle == id).SingleAsync();
+            context.Detalles.Remove(entidad);
             await context.SaveChangesAsync();
             return true;
         }
@@ -52,5 +52,4 @@ namespace ProyectoFinal.Data
         }
 
     }
-
 }

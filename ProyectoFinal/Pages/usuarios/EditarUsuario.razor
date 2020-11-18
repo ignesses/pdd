@@ -1,14 +1,18 @@
 ﻿@page "/usuarios/EditarUsuario/{id:int}"
-@using _ProyectoFinal.Data
-@inject _ProyectoFinal.Data.UsuarioService UsuarioService
+@using ProyectoFinal.Data
+@inject UsuarioService UsuarioService
 @inject NavigationManager navigation
+
+<h3>@mensaje</h3>
 
 <EditForm Model="@Modelo" OnValidSubmit="@Guardar">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
+    <h4>Usuario</h4>
     <InputText @bind-Value="Modelo.User" />
-    <!-- <InputText @bind-Value="Modelo.Clave" /> -->
+    <h4>Clave</h4>
+    <InputNumber @bind-Value="Modelo.Clave" />
 
     <button type="submit">Guardar</button>
 </EditForm>
@@ -19,16 +23,20 @@
     public int Id { get; set; }
 
     public Usuario Modelo { get; set; } = new Usuario();
+    public string mensaje;
 
     protected override async Task OnInitializedAsync()
     {
         if (Id > 0)
         {
             Modelo = await UsuarioService.Get(Id);
+            mensaje = "Editar Usuario";
+
         }
         else
         {
             Modelo = new Usuario();
+            mensaje = "Nuevo Usuario";
         }
     }
 
