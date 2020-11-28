@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model;
 
-namespace ProyectoFinal.Data
+namespace WebApplication.Data
 {
-    public class TaskDbContext : DbContext
+    public class DataContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = tareas.db");
+            optionsBuilder.UseSqlite("Data Source=tareas.db");
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>()
@@ -22,9 +23,9 @@ namespace ProyectoFinal.Data
                 .ToTable("Detalle");
         }
 
-        public DbSet<Tarea> Tareas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Recurso> Recursos { get; set; }
+        public DbSet<Tarea> Tareas { get; set; }
         public DbSet<Detalle> Detalles { get; set; }
 
     }

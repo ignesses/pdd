@@ -1,29 +1,39 @@
 ﻿@page "/detalles/EditarDetalle/{id:int}"
 @using ProyectoFinal.Data
 @inject DetalleService DetalleService
+@inject RecursoService RecursoService
 @inject NavigationManager navigation 
+@using Model
 
 <h3>@mensaje</h3>
 
 <EditForm Model="@Modelo" OnValidSubmit="@Guardar">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <h4>Fecha</h4>
-    <InputText @bind-Value="Modelo.Fecha" />
-    <h4>Tiempo</h4>
-    <InputText @bind-Value="Modelo.Tiempo" />
-    <h4>Recurso</h4>
-    <InputSelect @bind-Value="Id_Recurso">
-        <option value="0">Elija un recurso</option>
-        @foreach (var item in recursos)
-        {
-            <option value="@item.UsuarioId">@item.Nombre</option>
-        }
-    </InputSelect>
-
-
-    <button type="submit">Guardar</button>
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label>Fecha</label>
+                    <InputDate @bind-Value="Modelo.Fecha" type="date" class="form-control"/>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Tiempo</label>
+                    <InputText @bind-Value="Modelo.Tiempo" type="text" class="form-control" placeholder="Tiempo estimado en días"/>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Recurso</label>
+                    <InputSelect @bind-Value="Id_Recurso" type="text" class="form-control">
+                        <option value="0">Elija un recurso</option>
+                        @foreach (var item in recursos)
+                        {
+                            <option value="@item.UsuarioId">@item.Nombre</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+        </form>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    
 </EditForm>
 
 @code {
@@ -34,7 +44,7 @@
     public Detalle Modelo { get; set; } = new Detalle();
     public string Id_Recurso { get; set; }
     public string mensaje;
-    private List<Recurso> recursos;
+    private List<Recurso> recursos = new List<Recurso>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -51,7 +61,7 @@
             mensaje = "Nuevo Detalle";
         }
 
-        recursos = await DetalleService.GetRecursos();
+        recursos = await RecursoService.GetAll();
 
     }
 

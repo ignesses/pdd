@@ -3,6 +3,7 @@
 @inject UsuarioService UsuarioService
 @inject NavigationManager navigation
 @inject IJSRuntime JsRuntime
+@using Model; 
 
 <h1>Listado de Usuarios</h1>
 
@@ -14,23 +15,23 @@
 }
 else
 {
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Usuario</th>
-                <th>Clave</th>
-                <th>Acciones</th>
+                <th scope="col">Id</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Clave</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var usuario in usuarios)
             {
             <tr>
-                <td>@usuario.Id_User</td>
-                <td>@usuario.User</td>
-                <td>@usuario.Clave</td>
-                <td><button class="btn" @onclick="()=>Editar(usuario.Id_User)">Editar</button> <button class="btn" @onclick="()=>Borrar(usuario.Id_User)">Borrar</button></td>
+                <td scope="row">@usuario.Id_User</td>
+                <td scope="row">@usuario.User</td>
+                <td scope="row">@usuario.Clave</td>
+                <td scope="row"><button class="btn" @onclick="()=>Editar(usuario.Id_User)">Editar</button> <button class="btn" @onclick="()=>Borrar(usuario.Id_User)">Borrar</button></td>
             </tr>
             }
         </tbody>
@@ -44,6 +45,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         usuarios = await UsuarioService.GetAll();
+        var tipos = await UsuarioService.GetAll();
     }
 
     protected void Editar(int id)

@@ -1,0 +1,23 @@
+main{
+    margin-bottom: 3em;
+}
+
+.row{
+    margin-bottom: 15px;
+}
+
+.portada{
+    margin: 1em;
+}
+
+.form-group{
+    margin-bottom: 1.5em;
+}
+
+nav{
+    background-color: black;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+}

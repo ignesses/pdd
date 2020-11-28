@@ -3,6 +3,7 @@
 @inject RecursoService RecursoService
 @inject NavigationManager navigation
 @inject IJSRuntime JsRuntime
+@using Model
 
 <h1>Listado de Recursos</h1>
 
@@ -14,23 +15,23 @@
 }
 else
 {
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Usuario</th>
-                <th>Acciones</th>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var recurso in recursos)
             {
                 <tr>
-                    <td>@recurso.Id_Recurso</td>
-                    <td>@recurso.Nombre</td>
-                    <td>@recurso.Usuario.User</td>
-                    <td><button class="btn" @onclick="()=>Editar(recurso.Id_Recurso)">Editar</button> <button class="btn" @onclick="()=>Borrar(recurso.Id_Recurso)">Borrar</button></td>
+                    <td scope="row">@recurso.Id_Recurso</td>
+                    <td scope="row">@recurso.Nombre</td>
+                    <td scope="row">@recurso.Usuario.User</td>
+                    <td scope="row"><button class="btn" @onclick="()=>Editar(recurso.Id_Recurso)">Editar</button> <button class="btn" @onclick="()=>Borrar(recurso.Id_Recurso)">Borrar</button></td>
                 </tr>
             }
         </tbody>

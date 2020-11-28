@@ -3,6 +3,7 @@
 @inject DetalleService DetalleService
 @inject NavigationManager navigation
 @inject IJSRuntime JsRuntime
+@using Model
 
 <h1>Listado de Detalles</h1>
 
@@ -14,25 +15,25 @@
 }
 else
 {
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Fecha</th>
-                <th>Tiempo</th>
-                <th>Recurso</th>
-                <th>Acciones</th>
+                <th scope="col">Id</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Tiempo</th>
+                <th scope="col">Recurso</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var detalle in detalles)
             {
             <tr>
-                <td>@detalle.Id_Detalle</td>
-                <td>@detalle.Fecha</td>
-                <td>@detalle.Tiempo</td>
-                <td>@detalle.Recurso.Nombre</td>
-                <td><button class="btn" @onclick="()=>Editar(detalle.Id_Detalle)">Editar</button> <button class="btn" @onclick="()=>Borrar(detalle.Id_Detalle)">Borrar</button></td>
+                <td scope="row">@detalle.Id_Detalle</td>
+                <td scope="row">@detalle.Fecha</td>
+                <td scope="row">@detalle.Tiempo</td>
+                <td scope="row">@detalle.Recurso.Nombre</td>
+                <td scope="row"><button class="btn" @onclick="()=>Editar(detalle.Id_Detalle)">Editar</button> <button class="btn" @onclick="()=>Borrar(detalle.Id_Detalle)">Borrar</button></td>
             </tr>
             }
         </tbody>

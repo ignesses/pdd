@@ -1,7 +1,9 @@
 ﻿@page "/recursos/EditarRecurso/{id:int}"
 @using ProyectoFinal.Data
 @inject RecursoService RecursoService
+@inject UsuarioService UsuarioService 
 @inject NavigationManager navigation
+@using Model;
 
 <h3>@mensaje</h3>
 
@@ -9,19 +11,25 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <h4>Recurso</h4>
-    <InputText @bind-Value="Modelo.Nombre" />
-
-    <h4>Usuario</h4>
-    <InputSelect @bind-Value="Id_User">
-        <option value="0">Elija un usuario</option>
-        @foreach (var item in usuarios)
-        {
-            <option value="@item.Id_User">@item.User</option>
-        }
-    </InputSelect>
-
-    <button type="submit">Guardar</button>
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Recurso</label>
+                <InputText @bind-Value="Modelo.Nombre" type="text" class="form-control" placeholder="Nombre del recurso" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Usuario</label>
+                <InputSelect @bind-Value="Id_User" type="text" class="form-control">
+                    <option value="0">Elija un usuario</option>
+                    @foreach (var item in usuarios)
+                    {
+                        <option value="@item.Id_User">@item.User</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+    </form>
+    <button type="submit" class="btn btn-primary">Guardar</button>
 </EditForm>
 
 @code {
@@ -32,7 +40,7 @@
     public Recurso Modelo { get; set; } = new Recurso();
     public string mensaje;
     public string Id_User { get; set; }
-    private List<Usuario> usuarios;
+    private List<Usuario> usuarios = new List<Usuario>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,7 +57,7 @@
             mensaje = "Nuevo Recurso";
         }
 
-        usuarios = await RecursoService.GetUsuarios();
+        usuarios = await UsuarioService.GetAll();
 
     }
 

@@ -3,6 +3,7 @@
 @inject TareaService TareaService
 @inject NavigationManager navigation
 @inject IJSRuntime JsRuntime
+@using Model
 
 <h1>Listado de Tareas</h1>
 
@@ -14,29 +15,29 @@
 }
 else
 {
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Titulo</th>
-                <th>Vencimiento</th>
-                <th>Estimacion</th>
-                <th>Recurso</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th scope="col">Id</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Vencimiento</th>
+                <th scope="col">Estimacion</th>
+                <th scope="col">Recurso</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var tarea in tareas)
             {
             <tr>
-                <td>@tarea.Id_Tarea</td>
-                <td>@tarea.Titulo</td>
-                <td>@tarea.Vencimiento</td>
-                <td>@tarea.Estimacion</td>
-                <td>@tarea.Recurso.Nombre</td>
-                <td>@tarea.Estado</td>
-                <td><button class="btn" @onclick="()=>Editar(tarea.Id_Tarea)">Editar</button> <button class="btn" @onclick="()=>Borrar(tarea.Id_Tarea)">Borrar</button></td>
+                <td scope="row">@tarea.Id_Tarea</td>
+                <td scope="row">@tarea.Titulo</td>
+                <td scope="row">@tarea.Vencimiento</td>
+                <td scope="row">@tarea.Estimacion</td>
+                <td scope="row">@tarea.Recurso.Nombre</td>
+                <td scope="row">@tarea.Estado</td>
+                <td scope="row"><button class="btn" @onclick="()=>Editar(tarea.Id_Tarea)">Editar</button> <button class="btn" @onclick="()=>Borrar(tarea.Id_Tarea)">Borrar</button></td>
             </tr>
             }
         </tbody>

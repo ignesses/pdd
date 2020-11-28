@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProyectoFinal.Data;
+//using WebApplication.Data;
 
 namespace _ProyectoFinal
 {
@@ -23,6 +24,7 @@ namespace _ProyectoFinal
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<TaskDbContext>();
+            //services.AddSingleton<DataContext>();
             services.AddSingleton<TareaService>();
             services.AddSingleton<UsuarioService>();
             services.AddSingleton<DetalleService>();
