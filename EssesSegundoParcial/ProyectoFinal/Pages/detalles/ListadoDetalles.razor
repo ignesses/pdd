@@ -1,0 +1,70 @@
+﻿@page "/detalles/listadoDetalles"
+@using ProyectoFinal.Data
+@inject DetalleService DetalleService
+@inject NavigationManager navigation
+@inject IJSRuntime JsRuntime
+@using Model
+
+<h1>Listado de Detalles</h1>
+
+<button class="btn btn-success mb-2" @onclick="()=>Editar(0)">Nuevo</button>
+
+@if (detalles == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr class="text-center">
+                <th scope="col">Id</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Tiempo</th>
+                <th scope="col">Recurso</th>
+                <th scope="col">Tarea</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detalle in detalles)
+            {
+            <tr class="text-center">
+                <td scope="row">@detalle.Id_Detalle</td>
+                <td scope="row">@detalle.Fecha</td>
+                <td scope="row">@detalle.Tiempo</td>
+                <td scope="row">@detalle.Recurso.Nombre</td>
+                <td scope="row">@detalle.Tarea.Titulo</td>
+                <td scope="row"><button class="btn btn-info btn-sm" @onclick="()=>Editar(detalle.Id_Detalle)"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm" @onclick="()=>Borrar(detalle.Id_Detalle)"><i class="far fa-trash-alt"></i></button></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<Detalle> detalles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        detalles = await DetalleService.GetAll();
+    }
+
+    protected void Editar(int id)
+    {
+        navigation.NavigateTo("detalles/editarDetalle/" + id);
+    }
+
+    async Task Borrar(int id)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "¿Desea elimiar el detalle  seleccionado?");
+        if (confirmed)
+        {
+            //await DetalleService.Remove(id);
+            await DetalleService.BorrarDetalle(id);
+            detalles = await DetalleService.GetAll();
+        }
+    }
+
+}

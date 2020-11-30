@@ -1,0 +1,67 @@
+﻿@page "/usuarios/listadoUsuarios"
+@using ProyectoFinal.Data
+@inject UsuarioService UsuarioService
+@inject NavigationManager navigation
+@inject IJSRuntime JsRuntime
+@using Model
+
+<h1>Listado de Usuarios</h1>
+
+<button class="btn btn-success mb-2" @onclick="()=>Editar(0)">Nuevo</button>
+
+@if (usuarios == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr class="text-center">
+                <th scope="col">Id</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Clave</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in usuarios)
+            {
+                <tr class="text-center">
+                    <td scope="row">@usuario.Id_User</td>
+                    <td scope="row">@usuario.User</td>
+                    <td scope="row">@usuario.Clave</td>
+                    <td scope="row"><button class="btn btn-info btn-sm" @onclick="()=>Editar(usuario.Id_User)"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm" @onclick="()=>Borrar(usuario.Id_User)"><i class="far fa-trash-alt"></i></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<Usuario> usuarios;
+
+    protected override async Task OnInitializedAsync()
+    {
+        usuarios = await UsuarioService.GetAll();
+        var tipos = await UsuarioService.GetAll();
+    }
+
+    protected void Editar(int id)
+    {
+        navigation.NavigateTo("usuarios/editarUsuario/" + id);
+    }
+
+    async Task Borrar(int id)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "¿Desea elimiar el usuario seleccionado?");
+        if (confirmed)
+        {
+            //await UsuarioService.Remove(id);
+            await UsuarioService.BorrarUsuario(id);
+            usuarios = await UsuarioService.GetAll();
+        }
+    }
+
+}

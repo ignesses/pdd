@@ -1,0 +1,88 @@
+﻿@page "/tareas/EditarTarea/{id:int}"
+@using ProyectoFinal.Data
+@inject TareaService TareaService
+@inject RecursoService RecursoService 
+@inject NavigationManager navigation
+@using Model
+
+<h3>@mensaje</h3>
+
+<EditForm Model="@Modelo" OnValidSubmit="@Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label>Nombre</label>
+                <InputText @bind-Value="Modelo.Titulo" type="text" class="form-control" placeholder="Nombre de la tarea" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Vencimiento</label>
+                <InputDate @bind-Value="Modelo.Vencimiento" type="date" class="form-control" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Estimación</label>
+                <InputNumber @bind-Value="Modelo.Estimacion" type="text" class="form-control" placeholder="Estimación en días" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Recurso</label>
+                <InputSelect @bind-Value="Id_Recurso" type="text" class="form-control">
+                    <option value="0">Elija un recurso</option>
+                    @foreach (var item in recursos)
+                    {
+                        <option value="@item.UsuarioId">@item.Nombre</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Estado</label>
+                <InputText @bind-Value="Modelo.Estado" type="text" class="form-control" placeholder="Estado actual de la tarea" />
+            </div>
+        </div>
+    </form>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    public Tarea Modelo { get; set; } = new Tarea();
+    public string mensaje;
+    public string Id_Recurso { get; set; }
+    private List<Recurso> recursos = new List<Recurso>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            Modelo = await TareaService.Get(Id);
+            Id_Recurso = Modelo.RecursoId.ToString();
+            mensaje = "Editar Tarea";
+        }
+        else
+        {
+            Modelo = new Tarea();
+            mensaje = "Nueva Tarea";
+        }
+
+        recursos = await RecursoService.GetAll();
+
+    }
+
+
+    private async void Guardar()
+    {
+        Modelo.RecursoId = int.Parse(Id_Recurso);
+        await TareaService.Save(Modelo);
+        navigation.NavigateTo("tareas/ListadoTareas");
+    }
+
+}

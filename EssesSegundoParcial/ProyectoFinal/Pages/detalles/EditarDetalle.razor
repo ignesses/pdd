@@ -1,0 +1,94 @@
+﻿@page "/detalles/EditarDetalle/{id:int}"
+@using ProyectoFinal.Data
+@inject DetalleService DetalleService
+@inject RecursoService RecursoService
+@inject TareaService TareaService
+@inject NavigationManager navigation 
+@using Model
+
+<h3>@mensaje</h3>
+
+<EditForm Model="@Modelo" OnValidSubmit="@Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Fecha</label>
+                    <InputDate @bind-Value="Modelo.Fecha" type="date" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Tiempo</label>
+                    <InputText @bind-Value="Modelo.Tiempo" type="text" class="form-control" placeholder="Tiempo estimado en días" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Recurso</label>
+                    <InputSelect @bind-Value="Id_Recurso" type="text" class="form-control">
+                        <option value="0">Elija un recurso</option>
+                        @foreach (var item in recursos)
+                        {
+                            <option value="@item.UsuarioId">@item.Nombre</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Tarea</label>
+                    <InputSelect @bind-Value="Id_Tarea" type="text" class="form-control">
+                        <option value="0">Elija una tarea</option>
+                        @foreach (var item in tareas)
+                        {
+                            <option value="@item.Id_Tarea">@item.Titulo</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+        </form>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    public Detalle Modelo { get; set; } = new Detalle();
+    public string Id_Recurso { get; set; }
+    public string Id_Tarea { get; set; }
+    public string mensaje;
+    private List<Recurso> recursos = new List<Recurso>();
+    private List<Tarea> tareas = new List<Tarea>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            Modelo = await DetalleService.Get(Id);
+            Id_Recurso = Modelo.RecursoId.ToString();
+            Id_Tarea = Modelo.TareaId.ToString();
+            mensaje = "Editar Detalle";
+
+        }
+        else
+        {
+            Modelo = new Detalle();
+            mensaje = "Nuevo Detalle";
+        }
+
+        recursos = await RecursoService.GetAll();
+        tareas = await TareaService.GetAll();
+
+    }
+
+
+    private async void Guardar()
+    {
+        Modelo.RecursoId = int.Parse(Id_Recurso);
+        Modelo.TareaId = int.Parse(Id_Tarea);
+        await DetalleService.Save(Modelo);
+        navigation.NavigateTo("detalles/ListadoDetalles");
+    }
+
+}
