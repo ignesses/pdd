@@ -34,15 +34,15 @@ namespace WebApplication.Controllers
 
         public Tarea Post(Tarea valor)
         {
+            var local = _context.Tareas.Local.FirstOrDefault(e => e.Id_Tarea.Equals(valor.Id_Tarea));
+
+            if (local != null)
+                _context.Entry(local).State = EntityState.Detached;
+
             if (valor.Id_Tarea == 0)
-            {
-                _context.Tareas.Add(valor);
-            }
+                _context.Entry(valor).State = EntityState.Added;
             else
-            {
-                _context.Tareas.Attach(valor);
-                _context.Tareas.Update(valor);
-            }
+                _context.Entry(valor).State = EntityState.Modified;
 
             _context.SaveChanges();
             return valor;

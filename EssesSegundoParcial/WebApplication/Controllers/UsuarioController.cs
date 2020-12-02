@@ -43,18 +43,15 @@ namespace WebApplication.Controllers
         [HttpPost]
         public Usuario Post(Usuario valor)
         {
-            if (valor.Id_User == 0)
-            {
-                _context.Usuarios.Add(valor);
-            }
-            else
-            {
-                _context.Set<Usuario>().Attach(valor);
-                _context.Set<Usuario>().Update(valor);
-                //_context.Usuarios.Attach(valor);
-                //_context.Usuarios.Update(valor);
+            var local = _context.Usuarios.Local.FirstOrDefault(e => e.Id_User.Equals(valor.Id_User));
 
-            }
+            if (local != null)
+                _context.Entry(local).State = EntityState.Detached;
+
+            if (valor.Id_User == 0)
+                _context.Entry(valor).State = EntityState.Added;
+            else
+                _context.Entry(valor).State = EntityState.Modified;
 
             _context.SaveChanges();
             return valor;

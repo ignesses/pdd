@@ -35,15 +35,15 @@ namespace WebApplication.Controllers
         [HttpPost]
         public Detalle Post(Detalle valor)
         {
+            var local = _context.Detalles.Local.FirstOrDefault(e => e.Id_Detalle.Equals(valor.Id_Detalle));
+
+            if (local != null)
+                _context.Entry(local).State = EntityState.Detached;
+
             if (valor.Id_Detalle == 0)
-            {
-                _context.Detalles.Add(valor);
-            }
+                _context.Entry(valor).State = EntityState.Added;
             else
-            {
-                _context.Detalles.Attach(valor);
-                _context.Detalles.Update(valor);
-            }
+                _context.Entry(valor).State = EntityState.Modified;
 
             _context.SaveChanges();
             return valor;

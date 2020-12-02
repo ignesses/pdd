@@ -35,15 +35,15 @@ namespace WebApplication.Controllers
         [HttpPost]
         public Recurso Post(Recurso valor)
         {
+            var local = _context.Recursos.Local.FirstOrDefault(e => e.Id_Recurso.Equals(valor.Id_Recurso));
+
+            if (local != null)
+                _context.Entry(local).State = EntityState.Detached;
+
             if (valor.Id_Recurso == 0)
-            {
-                _context.Recursos.Add(valor);
-            }
+                _context.Entry(valor).State = EntityState.Added;
             else
-            {
-                _context.Recursos.Attach(valor);
-                _context.Recursos.Update(valor);
-            }
+                _context.Entry(valor).State = EntityState.Modified;
 
             _context.SaveChanges();
             return valor;
