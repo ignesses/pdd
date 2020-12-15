@@ -31,6 +31,13 @@ namespace ProyectoFinal.Data
             return await remoteService.GetDetalle(id);
         }
 
+        public async Task<List<Detalle>> GetDetalleTarea(int id)
+        {
+
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44350/api/");
+            return await remoteService.GetDetalleTarea(id);
+        }
+
         public async Task<Detalle> Save(Detalle value)
         {
             /*

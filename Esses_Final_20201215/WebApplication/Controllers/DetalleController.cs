@@ -32,6 +32,14 @@ namespace WebApplication.Controllers
             return _context.Detalles.Where(i => i.Id_Detalle == id).Single();
         }
 
+        [HttpGet("Filtro/{id}")]
+        public List<Detalle> GetDetalleTarea(int id)
+        {
+            List<Detalle> detalles =  _context.Detalles.Include(i => i.Recurso).Include(i => i.Tarea).ToList();
+            List<Detalle> filtroDetalles = detalles.FindAll(d => d.TareaId == id);
+            return filtroDetalles;
+        }
+
         [HttpPost]
         public Detalle Post(Detalle valor)
         {

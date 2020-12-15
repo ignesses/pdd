@@ -37,7 +37,11 @@ else
                 <td scope="row">@tarea.Estimacion</td>
                 <td scope="row">@tarea.Recurso.Nombre</td>
                 <td scope="row">@tarea.Estado</td>
-                <td scope="row"><button class="btn btn-info btn-sm" @onclick="()=>Editar(tarea.Id_Tarea)"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm" @onclick="()=>Borrar(tarea.Id_Tarea)"><i class="far fa-trash-alt"></i></button></td>
+                <td scope="row">
+                    <button class="btn btn-success btn-sm" @onclick="()=>Detalle(tarea.Id_Tarea)"><i class="fas fa-info"></i></button>
+                    <button class="btn btn-info btn-sm" @onclick="()=>Editar(tarea.Id_Tarea)"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-danger btn-sm" @onclick="()=>Borrar(tarea.Id_Tarea)"><i class="far fa-trash-alt"></i></button>
+                </td>
             </tr>
             }
         </tbody>
@@ -56,6 +60,11 @@ else
     protected void Editar(int id)
     {
         navigation.NavigateTo("tareas/editarTarea/" + id);
+    }
+
+    protected void Detalle(int id)
+    {
+        navigation.NavigateTo("detalles/listadoDetalles/" + id);
     }
 
     async Task Borrar(int id)

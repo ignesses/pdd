@@ -1,6 +1,7 @@
-﻿@page "/detalles/listadoDetalles"
+﻿@page "/detalles/listadoDetalles/{id:int}"
 @using ProyectoFinal.Data
 @inject DetalleService DetalleService
+@inject TareaService TareaService
 @inject NavigationManager navigation
 @inject IJSRuntime JsRuntime
 @using Model
@@ -8,6 +9,7 @@
 <h1>Listado de Detalles</h1>
 
 <button class="btn btn-success mb-2" @onclick="()=>Editar(0)">Nuevo</button>
+<button class="btn btn-info mb-2" @onclick="()=>Volver()">@Mensaje()</button>
 
 @if (detalles == null)
 {
@@ -44,11 +46,25 @@ else
 
 @code {
 
-    private List<Detalle> detalles;
+    public string mensaje;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private List<Detalle> detalles = new List<Detalle>();
+    //private Tarea tarea;
 
     protected override async Task OnInitializedAsync()
     {
-        detalles = await DetalleService.GetAll();
+        if (Id > 0)
+        {
+            //tarea = await TareaService.Get(Id);
+            detalles = await DetalleService.GetDetalleTarea(Id);
+        }
+        else
+        {
+            detalles = await DetalleService.GetAll();
+        }
     }
 
     protected void Editar(int id)
@@ -67,4 +83,27 @@ else
         }
     }
 
+    protected string Mensaje()
+    {
+        if (Id == 0)
+        {
+            return "Tareas";
+        }
+        else
+        {
+            return "Volver";
+        }
+    }
+
+    protected void Volver()
+    {
+        if (Id == 0)
+        {
+            navigation.NavigateTo("tareas/listadoTareas");
+        }
+        else
+        {
+            navigation.NavigateTo("tareas/listadoTareas");
+        }
+    }
 }

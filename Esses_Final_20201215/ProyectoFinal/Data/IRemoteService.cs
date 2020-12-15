@@ -59,6 +59,9 @@ namespace ProyectoFinal.Data
         [Get("/Detalle/{id}")]
         Task<Detalle> GetDetalle(int id);
 
+        [Get("/Detalle/Filtro/{id}")]
+        Task<List<Detalle>> GetDetalleTarea(int id);
+
         [Post("/Detalle")]
         Task<Detalle> GuardarDetalle(Detalle valor);
 

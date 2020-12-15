@@ -88,7 +88,7 @@
         Modelo.RecursoId = int.Parse(Id_Recurso);
         Modelo.TareaId = int.Parse(Id_Tarea);
         await DetalleService.Save(Modelo);
-        navigation.NavigateTo("detalles/ListadoDetalles");
+        navigation.NavigateTo("detalles/ListadoDetalles/0");
     }
 
 }
